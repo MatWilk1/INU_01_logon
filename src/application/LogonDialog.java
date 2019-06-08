@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -78,9 +79,6 @@ public class LogonDialog extends Dialog {
 
 		// Dodanie obrazka
 		dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Login_64x.png"))));
-//		Image image = new Image(ClassLoader.getSystemResourceAsStream("Login_64x.png"));
-//		ImageView imageView = new ImageView(image);
-//		dialog.setGraphic(imageView);
 
 		// Zwraca parê (Œrodowisko, U¿ytkownik)
 		dialog.setResultConverter(dialogButton -> {
@@ -93,8 +91,14 @@ public class LogonDialog extends Dialog {
 		Optional<Pair<Environment, String>> result = dialog.showAndWait();
 
 		// Jeœli Optional posiada wartoœæ to wypisuje informacje o Œrodowisku i
-		// U¿ytkowniku na konsoli
-		result.ifPresent(res -> {
+		// U¿ytkowniku na konsoli oraz weryfikuje poprawnoœæ has³a
+		result.ifPresent(logonFinalInfo());
+
+	}
+
+	
+	public Consumer<? super Pair<Environment, String>> logonFinalInfo() {
+		return res -> {
 			System.out.println(
 					"Œrodowisko = " + choiceBoxEnv.getValue() + ", " + "U¿ytkownik = " + comboBoxUsers.getValue());
 
@@ -119,10 +123,10 @@ public class LogonDialog extends Dialog {
 				alert.setContentText("Nie znaleziono takiego u¿ytkownika.");
 				alert.showAndWait();
 			}
-		});
-
+		};
 	}
 
+	
 	// Definicja poszczególnych s³uchaczy
 	public void choiceBoxEnvChanged(Environment newVal) {
 		comboBoxUsers.setItems(FXCollections.observableArrayList(base.getEnvirUsers(newVal)));
