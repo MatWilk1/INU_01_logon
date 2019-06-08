@@ -77,9 +77,10 @@ public class LogonDialog extends Dialog {
 		dialog.getDialogPane().lookupButton(loginButtonType).setDisable(true);
 
 		// Dodanie obrazka
-		Image image = new Image(ClassLoader.getSystemResourceAsStream("Login_64x.png"));
-		ImageView imageView = new ImageView(image);
-		dialog.setGraphic(imageView);
+		dialog.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("Login_64x.png"))));
+//		Image image = new Image(ClassLoader.getSystemResourceAsStream("Login_64x.png"));
+//		ImageView imageView = new ImageView(image);
+//		dialog.setGraphic(imageView);
 
 		// Zwraca parê (Œrodowisko, U¿ytkownik)
 		dialog.setResultConverter(dialogButton -> {
